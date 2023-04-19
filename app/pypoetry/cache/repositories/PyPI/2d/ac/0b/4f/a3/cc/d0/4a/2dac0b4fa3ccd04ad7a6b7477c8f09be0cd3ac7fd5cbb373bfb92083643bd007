@@ -1,1 +1,0 @@
-9999999999{"name": "flake8-quotes", "version": "3.3.2", "summary": "Flake8 lint for quotes.", "requires_dist": ["flake8"], "requires_python": null, "files": [{"file": "flake8-quotes-3.3.2.tar.gz", "hash": "sha256:6e26892b632dacba517bf27219c459a8396dcfac0f5e8204904c5a4ba9b480e1"}], "yanked": false, "_cache_version": "2.0.0"}

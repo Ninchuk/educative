@@ -21,16 +21,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfiles/django.Dockerfile
-    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
-    volumes:
-      - ./app:/usr/src/app
+    command: ["uwsgi", "--ini", "./app/config/uwsgi/uwsgi.ini"]
     ports:
-      - "8000:8000"
+      - '8001:8001'
     environment:
+      - DJANGO_SETTINGS_MODULE=educa.settings.prod
       - POSTGRES_NAME=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - CACHE_URL=memcached://memcached:11211/
 
     networks:
       - educa
@@ -54,6 +52,20 @@ services:
       interval: 10s
       timeout: 5s
       retries: 10
+
+  nginx:
+    image: nginx:1.23.1
+    restart: always
+    volumes:
+      - ./app/config/nginx:/etc/nginx/templates
+      - ./app:/code
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - web
+    networks:
+      - educa
 
 networks:
   educa:
